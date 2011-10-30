@@ -122,7 +122,7 @@ static struct dbs_tuners {
     .ignore_nice = 0,
     .powersave_bias = 0,
 #ifdef CONFIG_HAS_EARLYSUSPEND
-    .screenoff_maxfreq = false,
+    .screenoff_maxfreq = true,
 #endif
 };
 
