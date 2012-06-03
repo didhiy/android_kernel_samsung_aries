@@ -114,7 +114,7 @@ config FB_S3C_TL2796
 config FB_VOODOO
         bool "Voodoo Color"
         depends on FB_S3C_TL2796
-        default n
+        default y
         ---help---
           This enables support Voodoo color mods
 
