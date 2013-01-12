@@ -8,6 +8,11 @@ case "$1" in
             VER=""
             ;;
 
+        galaxys_sc02b)
+            VARIANT="galaxys_sc02b"
+            VER=""
+            ;;
+
         captivate)
             VARIANT="captivate"
             VER="c"
@@ -32,8 +37,8 @@ SEMA_VER=$BASE_SEMA_VER$VER
 #export KBUILD_BUILD_VERSION="2"
 export LOCALVERSION="-"`echo $SEMA_VER`
 #export CROSS_COMPILE=/opt/toolchains/gcc-linaro-arm-linux-gnueabihf-2012.09-20120921_linux/bin/arm-linux-gnueabihf-
-export CROSS_COMPILE=../toolchain/arm-linux-gnueabihf-
-export ARCH=arm
+#export CROSS_COMPILE=/media/DATA2/arm-linaro-4.7.3/bin/arm-linux-gnueabihf-
+#export ARCH=arm
 
 echo 
 echo "Making ""semaphore"_$VARIANT"_defconfig"
@@ -50,8 +55,8 @@ OUTPUT_DIR=../output/
 CWM_DIR=../ics-ramdisk/cwm/
 
 echo "LOCALVERSION="$LOCALVERSION
-echo "CROSS_COMPILE="$CROSS_COMPILE
-echo "ARCH="$ARCH
+#echo "CROSS_COMPILE="$CROSS_COMPILE
+#echo "ARCH="$ARCH
 echo "INIT_DIR="$INIT_DIR
 echo "MODULES_DIR="$MODULES_DIR
 echo "KERNEL_DIR="$KERNEL_DIR
@@ -63,13 +68,13 @@ if [ "$2" = "s" ] ; then
 fi
 
 
-make -j16 modules
+make modules
 
 rm `echo $MODULES_DIR"/*"`
 find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
 chmod 644 `echo $MODULES_DIR"/*"`
 
-make -j16 zImage
+make zImage
 
 cd arch/arm/boot
 tar cvf `echo $SEMA_VER`.tar zImage
