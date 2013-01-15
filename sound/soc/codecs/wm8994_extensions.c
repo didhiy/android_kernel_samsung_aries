@@ -91,7 +91,7 @@ bool stereo_expansion = false;
 short unsigned int stereo_expansion_gain = 16;
 
 //#ifdef CONFIG_PHONE_ARIES_CDMA
-#if 1
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 // call volume boost hack
 extern unsigned short incall_boost_rcv;
 extern unsigned short incall_boost_bt;
@@ -1076,7 +1076,7 @@ DECLARE_BOOL_STORE_UPDATE_WITH_MUTE(dac_direct,
 				    false);
 
 //#ifdef CONFIG_PHONE_ARIES_CDMA
-#if 1
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 static ssize_t incall_boost_rcv_show(struct device* dev, struct device_attribute* attr,
 				     char* buf)
 {
@@ -1688,7 +1688,7 @@ static DEVICE_ATTR(recording_preset, S_IRUGO | S_IWUGO,
 #endif
 
 //#ifdef CONFIG_PHONE_ARIES_CDMA
-#if 1
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 static DEVICE_ATTR(incall_boost_rcv, S_IRUGO | S_IWUGO,
 		   incall_boost_rcv_show,
 		   incall_boost_rcv_store);
@@ -1820,7 +1820,7 @@ static struct attribute *wm8994_extensions_attributes[] = {
 #endif
 
 //#ifdef CONFIG_PHONE_ARIES_CDMA
-#if 1
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 	&dev_attr_incall_boost_rcv.attr,
 	&dev_attr_incall_boost_bt.attr,
 	&dev_attr_incall_boost_spk.attr,
