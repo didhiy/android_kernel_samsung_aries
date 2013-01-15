@@ -91,6 +91,7 @@ bool stereo_expansion = false;
 short unsigned int stereo_expansion_gain = 16;
 
 // call volume boost hack
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 extern unsigned short incall_boost_rcv;
 extern unsigned short incall_boost_bt;
 extern unsigned short incall_boost_spk;
@@ -102,6 +103,7 @@ extern unsigned short incall_mic_gain_rcv;
 extern unsigned short incall_mic_gain_spk;
 extern unsigned short incall_mic_gain_hp;
 extern unsigned short incall_mic_gain_hp_no_mic;
+#endif
 
 // keep here a pointer to the codec structure
 struct snd_soc_codec *codec;
@@ -1073,6 +1075,7 @@ DECLARE_BOOL_STORE_UPDATE_WITH_MUTE(dac_direct,
 				    update_dac_direct,
 				    false);
 
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 static ssize_t incall_boost_rcv_show(struct device* dev, struct device_attribute* attr,
 				     char* buf)
 {
@@ -1313,6 +1316,7 @@ static ssize_t incall_mic_gain_hp_no_mic_store( struct device *dev,
 	}
 	return size;
 }
+#endif
 
 static ssize_t digital_gain_show(struct device *dev,
 				     struct device_attribute *attr, char *buf)
@@ -1682,6 +1686,7 @@ static DEVICE_ATTR(recording_preset, S_IRUGO | S_IWUGO,
 		   recording_preset_store);
 #endif
 
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 static DEVICE_ATTR(incall_boost_rcv, S_IRUGO | S_IWUGO,
 		   incall_boost_rcv_show,
 		   incall_boost_rcv_store);
@@ -1713,6 +1718,7 @@ static DEVICE_ATTR(incall_mic_gain_hp, S_IRUGO | S_IWUGO,
 static DEVICE_ATTR(incall_mic_gain_hp_no_mic, S_IRUGO | S_IWUGO,
 		   incall_mic_gain_hp_no_mic_show,
 		   incall_mic_gain_hp_no_mic_store);
+#endif
 
 static DEVICE_ATTR(dac_osr128, S_IRUGO | S_IWUGO,
 		   dac_osr128_show,
@@ -1810,7 +1816,7 @@ static struct attribute *wm8994_extensions_attributes[] = {
 #ifdef CONFIG_SND_WM8994_EXTENSIONS_RECORD_PRESETS
 	&dev_attr_recording_preset.attr,
 #endif
-
+#ifndef CONFIG_SAMSUNG_GALAXYS_SC02B
 	&dev_attr_incall_boost_rcv.attr,
 	&dev_attr_incall_boost_bt.attr,
 	&dev_attr_incall_boost_spk.attr,
@@ -1820,7 +1826,7 @@ static struct attribute *wm8994_extensions_attributes[] = {
 	&dev_attr_incall_mic_gain_spk.attr,
 	&dev_attr_incall_mic_gain_hp.attr,
 	&dev_attr_incall_mic_gain_hp_no_mic.attr,
-
+#endif
 	&dev_attr_dac_osr128.attr,
 	&dev_attr_adc_osr128.attr,
 #ifndef GALAXY_TAB_TEGRA
