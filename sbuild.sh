@@ -10,7 +10,7 @@ case "$1" in
 
         galaxys_sc02b)
             VARIANT="galaxys_sc02b"
-            VER=""
+            VER="j"
             ;;
 
         captivate)
