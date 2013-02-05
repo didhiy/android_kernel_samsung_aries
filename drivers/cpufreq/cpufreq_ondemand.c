@@ -63,7 +63,7 @@ static unsigned int min_sampling_rate;
 static unsigned int orig_sampling_rate;
 static unsigned int orig_sampling_down_factor;
 static unsigned int orig_io_is_busy;
-static unsigned int orig_sampling_down_max_momentum;
+static unsigned int orig_sampling_down_max_mom;
 
 extern unsigned int touch_state_val;
 
@@ -79,10 +79,10 @@ static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
 static
 #endif
 struct cpufreq_governor cpufreq_gov_ondemand = {
-       .name                   = "ondemand",
-       .governor               = cpufreq_governor_dbs,
-       .max_transition_latency = TRANSITION_LATENCY_LIMIT,
-       .owner                  = THIS_MODULE,
+	.name                   = "ondemand",
+	.governor               = cpufreq_governor_dbs,
+	.max_transition_latency = TRANSITION_LATENCY_LIMIT,
+	.owner                  = THIS_MODULE,
 };
 
 /* Sampling types */
@@ -122,12 +122,12 @@ static DEFINE_MUTEX(dbs_mutex);
 static struct dbs_tuners {
 	unsigned int sampling_rate;
 	unsigned int up_threshold;
-	unsigned int down_differential;
+	unsigned int down_diff;
 	unsigned int ignore_nice;
 	unsigned int sampling_down_factor;
 	unsigned int sampling_down_momentum;
-	unsigned int sampling_down_max_momentum;
-	unsigned int sampling_down_momentum_sensitivity;
+	unsigned int sampling_down_max_mom;
+	unsigned int sampling_down_mom_sens;
 	unsigned int powersave_bias;
 	unsigned int smooth_ui;
 	unsigned int io_is_busy;
@@ -138,9 +138,11 @@ static struct dbs_tuners {
 	.up_threshold = DEF_FREQUENCY_UP_THRESHOLD,
 	.sampling_down_factor = DEF_SAMPLING_DOWN_FACTOR,
 	.sampling_down_momentum = 0,
-	.sampling_down_max_momentum = DEF_SAMPLING_DOWN_MAX_MOMENTUM,
-	.sampling_down_momentum_sensitivity = DEF_SAMPLING_DOWN_MOMENTUM_SENSITIVITY,
-	.down_differential = DEF_FREQUENCY_DOWN_DIFFERENTIAL,
+	.sampling_down_max_mom = DEF_SAMPLING_DOWN_MAX_MOMENTUM,
+	.sampling_down_mom_sens =
+		DEF_SAMPLING_DOWN_MOMENTUM_SENSITIVITY,
+	.down_diff = DEF_FREQUENCY_UP_THRESHOLD -
+		     DEF_FREQUENCY_DOWN_DIFFERENTIAL,
 	.ignore_nice = 0,
 	.powersave_bias = 0,
 	.smooth_ui = DEF_SMOOTH_UI,
@@ -181,7 +183,8 @@ static inline cputime64_t get_cpu_idle_time(unsigned int cpu, cputime64_t *wall)
 	return idle_time;
 }
 
-static inline cputime64_t get_cpu_iowait_time(unsigned int cpu, cputime64_t *wall)
+static inline cputime64_t get_cpu_iowait_time(unsigned int cpu,
+					      cputime64_t *wall)
 {
 	u64 iowait_time = get_cpu_iowait_time_us(cpu, wall);
 
@@ -282,13 +285,12 @@ show_one(sampling_rate, sampling_rate);
 show_one(io_is_busy, io_is_busy);
 show_one(up_threshold, up_threshold);
 show_one(sampling_down_factor, sampling_down_factor);
-show_one(sampling_down_max_momentum, sampling_down_max_momentum);
-show_one(sampling_down_momentum_sensitivity, sampling_down_momentum_sensitivity);
+show_one(sampling_down_max_momentum, sampling_down_max_mom);
+show_one(sampling_down_momentum_sensitivity, sampling_down_mom_sens);
 show_one(ignore_nice_load, ignore_nice);
 show_one(powersave_bias, powersave_bias);
 show_one(smooth_ui, smooth_ui);
 show_one(boostpulse, boosted);
-show_one(boosttime, freq_boost_time);
 show_one(boostfreq, boostfreq);
 
 static ssize_t store_sampling_rate(struct kobject *a, struct attribute *b,
@@ -329,6 +331,10 @@ static ssize_t store_up_threshold(struct kobject *a, struct attribute *b,
 			input < MIN_FREQUENCY_UP_THRESHOLD) {
 		return -EINVAL;
 	}
+	/* calculate the new down_diff */
+	dbs_tuners_ins.down_diff += input;
+	dbs_tuners_ins.down_diff -= dbs_tuners_ins.up_threshold;
+
 	dbs_tuners_ins.up_threshold = input;
 	return count;
 }
@@ -344,7 +350,7 @@ static ssize_t store_sampling_down_factor(struct kobject *a,
 		return -EINVAL;
 	dbs_tuners_ins.sampling_down_factor = input;
 	orig_sampling_down_factor = dbs_tuners_ins.sampling_down_factor;
-	
+
 	/* Reset down sampling multiplier in case it was active */
 	for_each_online_cpu(j) {
 		struct cpu_dbs_info_s *dbs_info;
@@ -355,17 +361,19 @@ static ssize_t store_sampling_down_factor(struct kobject *a,
 }
 
 static ssize_t store_sampling_down_max_momentum(struct kobject *a,
-                       struct attribute *b, const char *buf, size_t count)
+			struct attribute *b, const char *buf, size_t count)
 {
 	unsigned int input, j;
 	int ret;
 	ret = sscanf(buf, "%u", &input);
 
-	if (ret != 1 || input > MAX_SAMPLING_DOWN_FACTOR - dbs_tuners_ins.sampling_down_factor  || input < 0)
+	if (ret != 1 || input > MAX_SAMPLING_DOWN_FACTOR -
+	    dbs_tuners_ins.sampling_down_factor || input < 0)
 		return -EINVAL;
-	dbs_tuners_ins.sampling_down_max_momentum = input;
-	orig_sampling_down_max_momentum = dbs_tuners_ins.sampling_down_max_momentum;
-	
+	dbs_tuners_ins.sampling_down_max_mom = input;
+	orig_sampling_down_max_mom =
+			dbs_tuners_ins.sampling_down_max_mom;
+
 	/* Reset momentum_adder*/
 	for_each_online_cpu(j) {
 		struct cpu_dbs_info_s *dbs_info;
@@ -377,15 +385,16 @@ static ssize_t store_sampling_down_max_momentum(struct kobject *a,
 }
 
 static ssize_t store_sampling_down_momentum_sensitivity(struct kobject *a,
-                       struct attribute *b, const char *buf, size_t count)
+			struct attribute *b, const char *buf, size_t count)
 {
 	unsigned int input, j;
 	int ret;
 	ret = sscanf(buf, "%u", &input);
 
-	if (ret != 1 || input > MAX_SAMPLING_DOWN_MOMENTUM_SENSITIVITY  || input < 1)
+	if (ret != 1 || input > MAX_SAMPLING_DOWN_MOMENTUM_SENSITIVITY
+	    || input < 1)
 		return -EINVAL;
-	dbs_tuners_ins.sampling_down_momentum_sensitivity = input;
+	dbs_tuners_ins.sampling_down_mom_sens = input;
 
 	/* Reset momentum_adder*/
 	for_each_online_cpu(j) {
@@ -585,9 +594,10 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 		j_dbs_info = &per_cpu(od_cpu_dbs_info, j);
 
 		cur_idle_time = get_cpu_idle_time(j, &cur_wall_time);
-		
+
 		if (dbs_tuners_ins.io_is_busy)
-			cur_iowait_time = get_cpu_iowait_time(j, &cur_wall_time);
+			cur_iowait_time =
+				 get_cpu_iowait_time(j, &cur_wall_time);
 
 		wall_time = (unsigned int) cputime64_sub(cur_wall_time,
 				j_dbs_info->prev_cpu_wall);
@@ -598,11 +608,12 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 		j_dbs_info->prev_cpu_idle = cur_idle_time;
 
 		if (dbs_tuners_ins.io_is_busy) {
-			iowait_time = (unsigned int) cputime64_sub(cur_iowait_time,
+			iowait_time =
+				(unsigned int) cputime64_sub(cur_iowait_time,
 				j_dbs_info->prev_cpu_iowait);
 			j_dbs_info->prev_cpu_iowait = cur_iowait_time;
 		}
-		
+
 		if (dbs_tuners_ins.ignore_nice) {
 			cputime64_t cur_nice;
 			unsigned long cur_nice_jiffies;
@@ -645,23 +656,30 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 	}
 
 	/* Check for frequency increase */
-	if ((dbs_tuners_ins.smooth_ui && touch_state_val) || max_load_freq > dbs_tuners_ins.up_threshold * policy->cur) {
+	if ((dbs_tuners_ins.smooth_ui && touch_state_val) ||
+	     max_load_freq > dbs_tuners_ins.up_threshold * policy->cur) {
 		/* If switching to max speed, apply sampling_down_factor */
 		if (policy->cur < policy->max)
 			this_dbs_info->rate_mult =
 				dbs_tuners_ins.sampling_down_factor;
 		dbs_freq_increase(policy, policy->max);
-		
+
 		/* Calculate momentum and update sampling down factor */
 
-		if (this_dbs_info->momentum_adder < dbs_tuners_ins.sampling_down_momentum_sensitivity) {
+		if (this_dbs_info->momentum_adder <
+		    dbs_tuners_ins.sampling_down_mom_sens) {
 			if (dbs_tuners_ins.smooth_ui && touch_state_val)
-				this_dbs_info->momentum_adder = dbs_tuners_ins.sampling_down_momentum_sensitivity;
+				this_dbs_info->momentum_adder =
+				dbs_tuners_ins.sampling_down_mom_sens;
 			else
 				this_dbs_info->momentum_adder++;
-			dbs_tuners_ins.sampling_down_momentum = (this_dbs_info->momentum_adder * dbs_tuners_ins.sampling_down_max_momentum)
-							  / dbs_tuners_ins.sampling_down_momentum_sensitivity;
-			dbs_tuners_ins.sampling_down_factor = orig_sampling_down_factor + dbs_tuners_ins.sampling_down_momentum;
+			dbs_tuners_ins.sampling_down_momentum =
+				(this_dbs_info->momentum_adder *
+				  dbs_tuners_ins.sampling_down_max_mom) /
+				  dbs_tuners_ins.sampling_down_mom_sens;
+			dbs_tuners_ins.sampling_down_factor =
+				orig_sampling_down_factor +
+				dbs_tuners_ins.sampling_down_momentum;
 		}
 
 		return;
@@ -675,11 +693,15 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 
 	/* Calculate momentum and update sampling down factor */
 
-	if (this_dbs_info->momentum_adder > 0) {
-		this_dbs_info->momentum_adder--;
-		dbs_tuners_ins.sampling_down_momentum = (this_dbs_info->momentum_adder * dbs_tuners_ins.sampling_down_max_momentum) 
-							  / dbs_tuners_ins.sampling_down_momentum_sensitivity;
-		dbs_tuners_ins.sampling_down_factor = orig_sampling_down_factor + dbs_tuners_ins.sampling_down_momentum;
+	if (this_dbs_info->momentum_adder > 1) {
+		this_dbs_info->momentum_adder -= 2;
+		dbs_tuners_ins.sampling_down_momentum =
+			(this_dbs_info->momentum_adder *
+			 dbs_tuners_ins.sampling_down_max_mom) /
+			 dbs_tuners_ins.sampling_down_mom_sens;
+		dbs_tuners_ins.sampling_down_factor =
+			 orig_sampling_down_factor +
+			 dbs_tuners_ins.sampling_down_momentum;
 	}
 
 	/* Check for frequency decrease */
@@ -692,13 +714,9 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 	 * can support the current CPU usage without triggering the up
 	 * policy. To be safe, we focus 10 points under the threshold.
 	 */
-	if (max_load_freq <
-	    (dbs_tuners_ins.up_threshold - dbs_tuners_ins.down_differential) *
-	     policy->cur) {
+	if (max_load_freq < dbs_tuners_ins.down_diff * policy->cur) {
 		unsigned int freq_next;
-		freq_next = max_load_freq /
-				(dbs_tuners_ins.up_threshold -
-				 dbs_tuners_ins.down_differential);
+		freq_next = max_load_freq / dbs_tuners_ins.down_diff;
 
 		if (dbs_tuners_ins.boosted &&
 				freq_next < boostfreq) {
@@ -805,14 +823,15 @@ static int should_io_be_busy(void)
 static void powersave_early_suspend(struct early_suspend *handler)
 {
 	dbs_tuners_ins.io_is_busy = 0;
-	dbs_tuners_ins.sampling_down_max_momentum = 0;
+	dbs_tuners_ins.sampling_down_max_mom = 0;
 	dbs_tuners_ins.sampling_rate *= 4;
 }
 
 static void powersave_late_resume(struct early_suspend *handler)
 {
 	dbs_tuners_ins.io_is_busy = orig_io_is_busy;
-	dbs_tuners_ins.sampling_down_max_momentum = orig_sampling_down_max_momentum;
+	dbs_tuners_ins.sampling_down_max_mom =
+		orig_sampling_down_max_mom;
 	dbs_tuners_ins.sampling_rate = orig_sampling_rate;
 }
 
@@ -881,8 +900,10 @@ static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
 				max(min_sampling_rate,
 				    latency * LATENCY_MULTIPLIER);
 			orig_sampling_rate = dbs_tuners_ins.sampling_rate;
-			orig_sampling_down_factor = dbs_tuners_ins.sampling_down_factor;
-			orig_sampling_down_max_momentum = dbs_tuners_ins.sampling_down_max_momentum;
+			orig_sampling_down_factor =
+				dbs_tuners_ins.sampling_down_factor;
+			orig_sampling_down_max_mom =
+				dbs_tuners_ins.sampling_down_max_mom;
 			dbs_tuners_ins.io_is_busy = should_io_be_busy();
 			orig_io_is_busy = dbs_tuners_ins.io_is_busy;
 		}
@@ -932,8 +953,8 @@ static int __init cpufreq_gov_dbs_init(void)
 	if (idle_time != -1ULL) {
 		/* Idle micro accounting is supported. Use finer thresholds */
 		dbs_tuners_ins.up_threshold = MICRO_FREQUENCY_UP_THRESHOLD;
-		dbs_tuners_ins.down_differential =
-					MICRO_FREQUENCY_DOWN_DIFFERENTIAL;
+		dbs_tuners_ins.down_diff = MICRO_FREQUENCY_UP_THRESHOLD -
+					   MICRO_FREQUENCY_DOWN_DIFFERENTIAL;
 		/*
 		 * In no_hz/micro accounting case we set the minimum frequency
 		 * not depending on HZ, but fixed (very low). The deferred
