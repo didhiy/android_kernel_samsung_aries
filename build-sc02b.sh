@@ -26,12 +26,6 @@ find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
 
 make zImage
 
-cd arch/arm/boot
-tar cvf `echo $BUILDVERSION`.tar zImage
-mv `echo $BUILDVERSION`.tar ../../../$OUTPUT_DIR
-echo "Moving to "$OUTPUT_DIR"/"
-cd ../../../
-
 cp arch/arm/boot/zImage $CWM_DIR"boot.img"
 cd $CWM_DIR
 zip -r `echo $BUILDVERSION`.zip *
