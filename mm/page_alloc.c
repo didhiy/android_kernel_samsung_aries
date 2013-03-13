@@ -589,7 +589,8 @@ static inline int free_pages_check(struct page *page)
 		bad_page(page);
 		return 1;
 	}
-	page->flags &= ~PAGE_FLAGS_CHECK_AT_PREP;
+	if (page->flags & PAGE_FLAGS_CHECK_AT_PREP)
+		page->flags &= ~PAGE_FLAGS_CHECK_AT_PREP;
 	return 0;
 }
 
