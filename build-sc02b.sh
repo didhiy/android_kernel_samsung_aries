@@ -1,7 +1,11 @@
 #!/bin/bash
-echo "Prepare TWRP stuffs"
+echo "Restore twrp dummy files deleted after distclean"
 git stash
-cp usr/galaxy_ramdisk2/twrp/sbin/*.so source/usr/galaxy_ramdisk2/twrp/sbin/
+echo "Remove and update both recovery ramdisk"
+rm -rfv source/usr/galaxy_ramdisk2/twrp
+rm -rfv source/usr/galaxy_ramdisk2/cwm
+cp -vr usr/galaxy_ramdisk2/twrp source/usr/galaxy_ramdisk2/
+cp -vr usr/galaxy_ramdisk2/cwm source/usr/galaxy_ramdisk2/
 
 echo "Making JB-4.2/CM-10.1 kernel for GS1 NTT-Docomo SC-02B"
 BUILDVERSION=mackay_sc02b-`date +%m%d`
