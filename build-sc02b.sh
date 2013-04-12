@@ -1,5 +1,8 @@
 #!/bin/bash
-echo 
+echo "Prepare TWRP stuffs"
+git stash
+cp usr/galaxy_ramdisk2/twrp/sbin/*.so source/usr/galaxy_ramdisk2/twrp/sbin/
+
 echo "Making JB-4.2/CM-10.1 kernel for GS1 NTT-Docomo SC-02B"
 BUILDVERSION=mackay_sc02b-`date +%m%d`
 DATE_START=$(date +"%s")
