@@ -52,7 +52,7 @@ INIT_DIR=$CONFIG_INITRAMFS_SOURCE
 MODULES_DIR=`echo $INIT_DIR`files/modules
 KERNEL_DIR=`pwd`
 OUTPUT_DIR=../output/
-CWM_DIR=../ics-ramdisk/cwm/
+CWM_DIR=../sema-ramdisk/cwm/
 
 echo "LOCALVERSION="$LOCALVERSION
 #echo "CROSS_COMPILE="$CROSS_COMPILE
