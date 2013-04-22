@@ -90,7 +90,7 @@ IMG_UINT32   PVRSRV_BridgeDispatchKM( IMG_UINT32  Ioctl,
 #if defined(SUPPORT_ACTIVE_POWER_MANAGEMENT)
 
 
-#define MIN_CPU_KHZ_FREQ 200000
+#define MIN_CPU_KHZ_FREQ 100000
 
 static struct clk *g3d_clock;
 static struct regulator *g3d_pd_regulator;
@@ -120,7 +120,7 @@ static struct notifier_block cpufreq_limit_notifier = {
 static PVRSRV_ERROR EnableSGXClocks(void)
 {
 #ifdef CONFIG_DVFS_LIMIT
-	s5pv210_lock_dvfs_high_level(DVFS_LOCK_TOKEN_PVR, L3); /* 200 MHz */
+	s5pv210_lock_dvfs_high_level(DVFS_LOCK_TOKEN_PVR, L4); /* 100 MHz */
 #endif
 	regulator_enable(g3d_pd_regulator);
 	clk_enable(g3d_clock);
