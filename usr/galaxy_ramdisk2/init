@@ -81,20 +81,40 @@ else
     busybox echo "lights.aries.so doesn't need to be updated"
 fi
 
-navbarsetting=`busybox cat /data/local/mackay/navbar`
-if busybox [ "$navbarsetting" -eq 1 ]; then
-	navbarchoice="0"
+navbarchoice=`busybox cat /data/local/mackay/navbar`
+if busybox [ "$navbarchoice" -eq 1 ]; then
+	NBCHOSEN="ACTIVE"
+	qemuhwkeys="0"
 else
-	navbarchoice="1"
+	NBCHOSEN="DISABLED"
+	qemuhwkeys="1"
 fi
-busybox sed "/qemu.hw.mainkeys/d" /system/build.prop > /system/build.prop2
-busybox mv /system/build.prop2 /system/build.prop
-busybox echo "qemu.hw.mainkeys=$navbarchoice" >> /system/build.prop
+busybox echo "Navbar setting is $NBCHOSEN"
+
+if busybox [ -f /data/local/mackay/navbaractive ]; then
+	NBACTIVE="ACTIVE"
+else
+	NBACTIVE="DISABLED"
+fi
+busybox echo "Current active navbar settings is $NBACTIVE"
+
+if busybox [ "$NBCHOSEN" != "$NBACTIVE" ]; then
+	busybox echo "Navbar needs to be updated"
+	busybox sed "/qemu.hw.mainkeys/d" /system/build.prop > /system/build.prop2
+	busybox mv /system/build.prop2 /system/build.prop
+	busybox echo "qemu.hw.mainkeys=$qemuhwkeys" >> /system/build.prop
+else
+	busybox echo "Navbar doesn't need to be updated"
+fi
 
 if busybox test -e /cache/.startrecovery || busybox grep -q bootmode=2 /proc/cmdline ; then
 	# recovery boot
 	busybox echo "Found recovery command, preparing boot..."
 	busybox rm -fr /cache/.startrecovery
+
+	busybox echo "Moving apps from mackay folder to tmp folder"
+	busybox mkdir /tmp
+	busybox cp /system/mackay/* /tmp/
 
 	chosenrecovery=`busybox cat /data/local/mackay/chosenrecovery`
 	if busybox [ "$chosenrecovery" -eq 1 ]; then
@@ -103,12 +123,6 @@ if busybox test -e /cache/.startrecovery || busybox grep -q bootmode=2 /proc/cmd
 		CHOSENRECOVERY="twrp"
 	fi
 	busybox echo "Chosen recovery is $CHOSENRECOVERY"
-
-	if busybox [ "$chosenrecovery" -eq 1 ]; then
-	busybox echo "Moving AromaFM to tmp folder"
-	busybox mkdir /tmp
-	busybox cp /system/mackay/* /tmp/
-	fi
 
 	# image=/stage1/ramdisk-recovery.img
 	busybox echo "Moving $CHOSENRECOVERY to /"
