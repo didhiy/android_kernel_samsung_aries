@@ -21,7 +21,7 @@ config CPU_S5PV210
 config CPU_DIDLE
         bool "Enable DEEP IDLE support for S5PV210 CPU"
         depends on CPU_IDLE
-        default n
+        default y
         help
           Enable DEEP IDLE support for S5PV210 CPU.
 
