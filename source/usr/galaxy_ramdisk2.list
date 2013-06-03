@@ -78,7 +78,6 @@ file /rom_boot/default.prop source/usr/galaxy_ramdisk2/rom_boot/default.prop 755
 file /rom_boot/fstab.aries source/usr/galaxy_ramdisk2/rom_boot/fstab.aries 755 0 0
 file /rom_boot/init source/usr/galaxy_ramdisk2/rom_boot/init 755 0 0
 file /rom_boot/init.aries.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.rc 755 0 0
-file /rom_boot/init.aries.gps.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.gps.rc 755 0 0
 file /rom_boot/init.aries.usb.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.usb.rc 755 0 0
 file /rom_boot/init.cm.rc source/usr/galaxy_ramdisk2/rom_boot/init.cm.rc 755 0 0
 file /rom_boot/init.goldfish.rc source/usr/galaxy_ramdisk2/rom_boot/init.goldfish.rc 755 0 0
