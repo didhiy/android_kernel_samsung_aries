@@ -8,7 +8,7 @@ cp -vr usr/galaxy_ramdisk2/twrp source/usr/galaxy_ramdisk2/
 cp -vr usr/galaxy_ramdisk2/cwm source/usr/galaxy_ramdisk2/
 
 echo "Making JB-4.2/CM-10.1 kernel for GS1 NTT-Docomo SC-02B"
-BUILDVERSION=Mackay_kernel_0.323_VC-sc02b
+BUILDVERSION=Mackay_kernel_0.324_VC-sc02b
 DATE_START=$(date +"%s")
 
 make "cyanogenmod_galaxys_sc02b_defconfig"
