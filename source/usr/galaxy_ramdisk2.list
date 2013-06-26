@@ -500,6 +500,7 @@ file /twrp/sbin/libflashutils.so source/usr/galaxy_ramdisk2/twrp/sbin/libflashut
 file /twrp/sbin/liblog.so source/usr/galaxy_ramdisk2/twrp/sbin/liblog.so 755 0 0
 file /twrp/sbin/libm.so source/usr/galaxy_ramdisk2/twrp/sbin/libm.so 755 0 0
 file /twrp/sbin/libminadbd.so source/usr/galaxy_ramdisk2/twrp/sbin/libminadbd.so 755 0 0
+file /twrp/sbin/libmincrypt.so source/usr/galaxy_ramdisk2/twrp/sbin/libmincrypt.so 755 0 0
 file /twrp/sbin/libminuitwrp.so source/usr/galaxy_ramdisk2/twrp/sbin/libminuitwrp.so 755 0 0
 file /twrp/sbin/libminzip.so source/usr/galaxy_ramdisk2/twrp/sbin/libminzip.so 755 0 0
 file /twrp/sbin/libmtdutils.so source/usr/galaxy_ramdisk2/twrp/sbin/libmtdutils.so 755 0 0
