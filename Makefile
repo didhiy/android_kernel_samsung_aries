@@ -352,7 +352,7 @@ OPTIMIZATION_FLAGS = -march=armv7-a -mtune=cortex-a8 -mfpu=neon \
                      -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr
 CFLAGS_MODULE   = $(OPTIMIZATION_FLAGS)
 AFLAGS_MODULE   = $(OPTIMIZATION_FLAGS)
-LDFLAGS_MODULE  =
+LDFLAGS_MODULE  = --strip-debug
 CFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
 AFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
 CFLAGS_GCOV     = -fprofile-arcs -ftest-coverage
