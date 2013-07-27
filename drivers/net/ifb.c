@@ -254,10 +254,8 @@ static int __init ifb_init_module(void)
 	if (err < 0)
 		goto out;
 
-	for (i = 0; i < numifbs && !err; i++) {
+	for (i = 0; i < numifbs && !err; i++)
 		err = ifb_init_one(i);
-		cond_resched();
-	}
 	if (err)
 		__rtnl_link_unregister(&ifb_link_ops);
 
