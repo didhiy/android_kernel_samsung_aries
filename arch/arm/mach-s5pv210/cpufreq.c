@@ -152,6 +152,7 @@ static struct s5pv210_dvs_conf dvs_conf[] = {
 };
 
 static u32 clkdiv_val[8][11] = {
+
 	/*
 	 * Clock divider value for following
 	 * { APLL, A2M, HCLK_MSYS, PCLK_MSYS,
@@ -932,12 +933,15 @@ static int s5pv210_cpu_init(struct cpufreq_policy *policy)
 
 	cpufreq_frequency_table_get_attr(s5pv210_freq_table, policy->cpu);
 
-	policy->cpuinfo.transition_latency = 35000;
-
 #ifdef CONFIG_LIVE_OC
 	liveoc_init();
 #endif
 
+#ifdef CONFIG_MACH_ARIES
+	policy->cpuinfo.transition_latency = 35000;
+#else // CONFIG_MACH_P1
+	policy->cpuinfo.transition_latency = 100000; /* 1us */
+#endif
 
 #ifdef CONFIG_DVFS_LIMIT
 	int i;

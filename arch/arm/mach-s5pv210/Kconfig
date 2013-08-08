@@ -367,6 +367,35 @@ config CPU_DIDLE
 	depends on CPU_IDLE
 	default y
 
+config S5PV210_SCLKFIMD_USE_VPLL
+	bool "Use VPLL for FIMD sclk source"
+	depends on FB_S3C
+	default n
+	help
+	  Sclk fimd source use vpll, otherwise use mpll.
+
+choice
+	prompt "Target Pixel clock setting"
+	depends on FB_S3C
+	default TARGET_PCLK_54
+
+config TARGET_PCLK_44_46
+	bool "44.46Mhz"
+	help
+	  Support 44.46Mhz
+
+config TARGET_PCLK_47_6
+	bool "47.6Mhz"
+	help
+	  Support 47.6Mhz
+
+config TARGET_PCLK_54
+	bool "54Mhz"
+	help
+	  Support 54Mhz
+
+endchoice
+
 config WIFI_CONTROL_FUNC
        bool "Enable WiFi control function abstraction"
        help
@@ -380,3 +409,9 @@ config FORCE_FAST_CHARGE
          are detected as USB to charge as AC.
 
 endif
+
+config SEC_HEADSET
+	tristate "SEC 2 Wire detection driver"
+	help
+	  Provides support for detecting SEC 2 wire devices, such as wired
+	  headset.

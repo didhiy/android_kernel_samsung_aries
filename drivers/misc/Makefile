@@ -62,3 +62,7 @@ obj-$(CONFIG_LIVE_OC)    += live_oc.o
 obj-$(CONFIG_DEVIL_TWEAKS)	+= devil.o
 obj-$(CONFIG_GENERIC_BLN)  += bln.o
 obj-$(CONFIG_TOUCH_WAKE)  += touch_wake.o
+obj-$(CONFIG_SAMSUNG_DPRAM)	+= dpram/
+obj-$(CONFIG_30PIN_CONN)	+= 30pin_con.o
+obj-$(CONFIG_MHL_SII9234)	+= sii9234.o
+obj-$(CONFIG_VIBETONZ)		+= tspdrv/

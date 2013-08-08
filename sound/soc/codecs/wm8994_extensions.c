@@ -53,7 +53,7 @@ unsigned short origin_recgain;
 unsigned short origin_recgain_mixer;
 #endif
 
-#ifdef NEXUS_S
+#if defined(NEXUS_S) || defined(GALAXY_TAB)
 bool speaker_tuning = false;
 #endif
 
@@ -520,7 +520,7 @@ bool is_path_media_or_fm_no_call_no_record()
 	return false;
 }
 
-#ifdef NEXUS_S
+#if defined(NEXUS_S) || defined(GALAXY_TAB)
 void update_speaker_tuning(bool with_mute)
 {
 	DECLARE_WM8994(codec);
@@ -599,8 +599,8 @@ unsigned short osr128_get_value(unsigned short val)
     if (debug_log(LOG_INFOS))
         printk("wm8994_extensions: %s %s %s %d\n",
                __func__,
-               dac_osr128 ? "dac_osr128" : "", 
-               adc_osr128 ? "adc_osr128" : "", 
+               dac_osr128 ? "dac_osr128" : "",
+               adc_osr128 ? "adc_osr128" : "",
                val);
 
 	return val;
@@ -1004,7 +1004,7 @@ static ssize_t name##_store(struct device *dev, struct device_attribute *attr, \
 	return size;							       \
 }
 
-#ifdef NEXUS_S
+#if defined(NEXUS_S) || defined(GALAXY_TAB)
 DECLARE_BOOL_SHOW(speaker_tuning);
 DECLARE_BOOL_STORE_UPDATE_WITH_MUTE(speaker_tuning,
 				    update_speaker_tuning,
@@ -1661,7 +1661,7 @@ static DEVICE_ATTR(headphone_amplifier_level, S_IRUGO | S_IWUGO,
 		   headphone_amplifier_level_store);
 #endif
 
-#ifdef NEXUS_S
+#if defined(NEXUS_S) || defined(GALAXY_TAB)
 static DEVICE_ATTR(speaker_tuning, S_IRUGO | S_IWUGO,
 		   speaker_tuning_show,
 		   speaker_tuning_store);
@@ -1807,7 +1807,7 @@ static struct attribute *wm8994_extensions_attributes[] = {
 #ifdef CONFIG_SND_WM8994_EXTENSIONS_HP_LEVEL_CONTROL
 	&dev_attr_headphone_amplifier_level.attr,
 #endif
-#ifdef NEXUS_S
+#if defined(NEXUS_S) || defined(GALAXY_TAB)
 	&dev_attr_speaker_tuning.attr,
 #endif
 #ifdef CONFIG_SND_WM8994_EXTENSIONS_FM
@@ -1948,7 +1948,7 @@ void wm8994_extensions_record_main_mic()
 }
 #endif
 
-#ifdef NEXUS_S
+#if defined(NEXUS_S) || defined(GALAXY_TAB)
 void wm8994_extensions_playback_speaker()
 {
 	// global kill switch
