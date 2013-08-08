@@ -77,7 +77,9 @@ file /lvm/sbin/lvm source/usr/galaxy_ramdisk2/lvm/sbin/lvm 755 0 0
 #ramdisk
 file /rom_boot/charger source/usr/galaxy_ramdisk2/rom_boot/charger 755 0 0
 file /rom_boot/default.prop source/usr/galaxy_ramdisk2/rom_boot/default.prop 755 0 0
+file /rom_boot/file_contexts source/usr/galaxy_ramdisk2/rom_boot/file_contexts 755 0 0
 file /rom_boot/fstab.aries source/usr/galaxy_ramdisk2/rom_boot/fstab.aries 755 0 0
+file /rom_boot/fstab.goldfish source/usr/galaxy_ramdisk2/rom_boot/fstab.goldfish 755 0 0
 file /rom_boot/init source/usr/galaxy_ramdisk2/rom_boot/init 755 0 0
 file /rom_boot/init.aries.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.rc 755 0 0
 file /rom_boot/init.aries.gps.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.gps.rc 755 0 0
@@ -85,9 +87,13 @@ file /rom_boot/init.aries.usb.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.
 file /rom_boot/init.cm.rc source/usr/galaxy_ramdisk2/rom_boot/init.cm.rc 755 0 0
 file /rom_boot/init.goldfish.rc source/usr/galaxy_ramdisk2/rom_boot/init.goldfish.rc 755 0 0
 file /rom_boot/init.rc source/usr/galaxy_ramdisk2/rom_boot/init.rc 755 0 0
+file /rom_boot/init.superuser.rc source/usr/galaxy_ramdisk2/rom_boot/init.superuser.rc 755 0 0
 file /rom_boot/init.trace.rc source/usr/galaxy_ramdisk2/rom_boot/init.trace.rc 755 0 0
 file /rom_boot/init.usb.rc source/usr/galaxy_ramdisk2/rom_boot/init.usb.rc 755 0 0
 file /rom_boot/lpm.rc source/usr/galaxy_ramdisk2/rom_boot/lpm.rc 755 0 0
+file /rom_boot/property_contexts source/usr/galaxy_ramdisk2/rom_boot/property_contexts 755 0 0
+file /rom_boot/seapp_contexts source/usr/galaxy_ramdisk2/rom_boot/seapp_contexts 755 0 0
+file /rom_boot/sepolicy source/usr/galaxy_ramdisk2/rom_boot/sepolicy 755 0 0
 file /rom_boot/res/images/charger/battery_0.png source/usr/galaxy_ramdisk2/rom_boot/res/images/charger/battery_0.png 755 0 0
 file /rom_boot/res/images/charger/battery_1.png source/usr/galaxy_ramdisk2/rom_boot/res/images/charger/battery_1.png 755 0 0
 file /rom_boot/res/images/charger/battery_2.png source/usr/galaxy_ramdisk2/rom_boot/res/images/charger/battery_2.png 755 0 0
@@ -107,10 +113,13 @@ file /rom_boot/ueventd.rc source/usr/galaxy_ramdisk2/rom_boot/ueventd.rc 755 0 0
 file /cwm/charger source/usr/galaxy_ramdisk2/cwm/charger 755 0 0
 file /cwm/default.prop source/usr/galaxy_ramdisk2/cwm/default.prop 755 0 0
 file /cwm/etc/recovery.fstab source/usr/galaxy_ramdisk2/cwm/etc/recovery.fstab 755 0 0
+file /cwm/file_contexts source/usr/galaxy_ramdisk2/cwm/file_contexts 755 0 0
 file /cwm/fstab.aries source/usr/galaxy_ramdisk2/cwm/fstab.aries 755 0 0
+file /cwm/fstab.goldfish source/usr/galaxy_ramdisk2/cwm/fstab.goldfish 755 0 0
 file /cwm/init source/usr/galaxy_ramdisk2/cwm/init 755 0 0
 file /cwm/init.rc source/usr/galaxy_ramdisk2/cwm/init.rc 755 0 0
 file /cwm/lpm.rc source/usr/galaxy_ramdisk2/cwm/lpm.rc 755 0 0
+file /cwm/property_contexts source/usr/galaxy_ramdisk2/cwm/property_contexts 755 0 0
 file /cwm/res/images/charger/battery_0.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_0.png 755 0 0
 file /cwm/res/images/charger/battery_1.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_1.png 755 0 0
 file /cwm/res/images/charger/battery_2.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_2.png 755 0 0
@@ -334,6 +343,8 @@ file /cwm/sbin/xargs source/usr/galaxy_ramdisk2/cwm/sbin/xargs 755 0 0
 file /cwm/sbin/xzcat source/usr/galaxy_ramdisk2/cwm/sbin/xzcat 755 0 0
 file /cwm/sbin/yes source/usr/galaxy_ramdisk2/cwm/sbin/yes 755 0 0
 file /cwm/sbin/zcat source/usr/galaxy_ramdisk2/cwm/sbin/zcat 755 0 0
+file /cwm/seapp_contexts source/usr/galaxy_ramdisk2/cwm/seapp_contexts 755 0 0
+file /cwm/sepolicy source/usr/galaxy_ramdisk2/cwm/sepolicy 755 0 0
 file /cwm/ueventd.aries.rc source/usr/galaxy_ramdisk2/cwm/ueventd.aries.rc 755 0 0
 file /cwm/ueventd.goldfish.rc source/usr/galaxy_ramdisk2/cwm/ueventd.goldfish.rc 755 0 0
 file /cwm/ueventd.rc source/usr/galaxy_ramdisk2/cwm/ueventd.rc 755 0 0
