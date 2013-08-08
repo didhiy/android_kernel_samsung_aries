@@ -114,7 +114,7 @@
 #undef pr_debug
 #define pr_debug pr_info
 
-#if (defined(CONFIG_SAMSUNG_GALAXYS) && !defined(CONFIG_SAMSUNG_GALASYS_SC02B)) \
+#if (defined(CONFIG_SAMSUNG_GALAXYS) && !defined(CONFIG_SAMSUNG_GALAXYS_SC02B)) \
      || defined (CONFIG_SAMSUNG_GALAXYSB)
 #define GALAXY_HAS_FM_RADIO
 #endif
