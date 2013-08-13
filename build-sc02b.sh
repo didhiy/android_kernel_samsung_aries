@@ -1,19 +1,16 @@
 #!/bin/bash
 echo 
-echo "Making JB-4.2/CM-10.1 kernel for GS1 NTT-Docomo SC-02B"
-BUILDVERSION=devil-jb43_sc02b-`date +%m%d`
+echo "Making JB-4.3/CM-10.2 kernel for GS1 NTT-Docomo SC-02B"
+BUILDVERSION=Devil-JB43-`date +%Y%m%d`-sc02b
 DATE_START=$(date +"%s")
 
 make "cyanogenmod_galaxys_sc02b_defconfig"
 
-eval $(grep CONFIG_INITRAMFS_SOURCE .config)
-INIT_DIR=$CONFIG_INITRAMFS_SOURCE
-MODULES_DIR=`echo $INIT_DIR`files/modules
 KERNEL_DIR=`pwd`
 OUTPUT_DIR=../output
-CWM_DIR=../ramdisk-sc02b/cwm/
+CWM_DIR=../ramdisk-sc02b/devil/
+MODULES_DIR=../ramdisk-sc02b/devil/system/lib/modules/
 
-echo "INIT_DIR="$INIT_DIR
 echo "MODULES_DIR="$MODULES_DIR
 echo "KERNEL_DIR="$KERNEL_DIR
 echo "OUTPUT_DIR="$OUTPUT_DIR
