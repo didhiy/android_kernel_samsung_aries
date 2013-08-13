@@ -77,16 +77,23 @@ file /lvm/sbin/lvm source/usr/galaxy_ramdisk2/lvm/sbin/lvm 755 0 0
 #ramdisk
 file /rom_boot/charger source/usr/galaxy_ramdisk2/rom_boot/charger 755 0 0
 file /rom_boot/default.prop source/usr/galaxy_ramdisk2/rom_boot/default.prop 755 0 0
+file /rom_boot/file_contexts source/usr/galaxy_ramdisk2/rom_boot/file_contexts 755 0 0
 file /rom_boot/fstab.aries source/usr/galaxy_ramdisk2/rom_boot/fstab.aries 755 0 0
+file /rom_boot/fstab.goldfish source/usr/galaxy_ramdisk2/rom_boot/fstab.goldfish 755 0 0
 file /rom_boot/init source/usr/galaxy_ramdisk2/rom_boot/init 755 0 0
 file /rom_boot/init.aries.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.rc 755 0 0
+file /rom_boot/init.aries.gps.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.gps.rc 755 0 0
 file /rom_boot/init.aries.usb.rc source/usr/galaxy_ramdisk2/rom_boot/init.aries.usb.rc 755 0 0
 file /rom_boot/init.cm.rc source/usr/galaxy_ramdisk2/rom_boot/init.cm.rc 755 0 0
 file /rom_boot/init.goldfish.rc source/usr/galaxy_ramdisk2/rom_boot/init.goldfish.rc 755 0 0
 file /rom_boot/init.rc source/usr/galaxy_ramdisk2/rom_boot/init.rc 755 0 0
+file /rom_boot/init.superuser.rc source/usr/galaxy_ramdisk2/rom_boot/init.superuser.rc 755 0 0
 file /rom_boot/init.trace.rc source/usr/galaxy_ramdisk2/rom_boot/init.trace.rc 755 0 0
 file /rom_boot/init.usb.rc source/usr/galaxy_ramdisk2/rom_boot/init.usb.rc 755 0 0
 file /rom_boot/lpm.rc source/usr/galaxy_ramdisk2/rom_boot/lpm.rc 755 0 0
+file /rom_boot/property_contexts source/usr/galaxy_ramdisk2/rom_boot/property_contexts 755 0 0
+file /rom_boot/seapp_contexts source/usr/galaxy_ramdisk2/rom_boot/seapp_contexts 755 0 0
+file /rom_boot/sepolicy source/usr/galaxy_ramdisk2/rom_boot/sepolicy 755 0 0
 file /rom_boot/res/images/charger/battery_0.png source/usr/galaxy_ramdisk2/rom_boot/res/images/charger/battery_0.png 755 0 0
 file /rom_boot/res/images/charger/battery_1.png source/usr/galaxy_ramdisk2/rom_boot/res/images/charger/battery_1.png 755 0 0
 file /rom_boot/res/images/charger/battery_2.png source/usr/galaxy_ramdisk2/rom_boot/res/images/charger/battery_2.png 755 0 0
@@ -106,10 +113,13 @@ file /rom_boot/ueventd.rc source/usr/galaxy_ramdisk2/rom_boot/ueventd.rc 755 0 0
 file /cwm/charger source/usr/galaxy_ramdisk2/cwm/charger 755 0 0
 file /cwm/default.prop source/usr/galaxy_ramdisk2/cwm/default.prop 755 0 0
 file /cwm/etc/recovery.fstab source/usr/galaxy_ramdisk2/cwm/etc/recovery.fstab 755 0 0
+file /cwm/file_contexts source/usr/galaxy_ramdisk2/cwm/file_contexts 755 0 0
 file /cwm/fstab.aries source/usr/galaxy_ramdisk2/cwm/fstab.aries 755 0 0
+file /cwm/fstab.goldfish source/usr/galaxy_ramdisk2/cwm/fstab.goldfish 755 0 0
 file /cwm/init source/usr/galaxy_ramdisk2/cwm/init 755 0 0
 file /cwm/init.rc source/usr/galaxy_ramdisk2/cwm/init.rc 755 0 0
 file /cwm/lpm.rc source/usr/galaxy_ramdisk2/cwm/lpm.rc 755 0 0
+file /cwm/property_contexts source/usr/galaxy_ramdisk2/cwm/property_contexts 755 0 0
 file /cwm/res/images/charger/battery_0.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_0.png 755 0 0
 file /cwm/res/images/charger/battery_1.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_1.png 755 0 0
 file /cwm/res/images/charger/battery_2.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_2.png 755 0 0
@@ -118,6 +128,7 @@ file /cwm/res/images/charger/battery_4.png source/usr/galaxy_ramdisk2/cwm/res/im
 file /cwm/res/images/charger/battery_5.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_5.png 755 0 0
 file /cwm/res/images/charger/battery_charge.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_charge.png 755 0 0
 file /cwm/res/images/charger/battery_fail.png source/usr/galaxy_ramdisk2/cwm/res/images/charger/battery_fail.png 755 0 0
+file /cwm/res/images/icon_cid.png source/usr/galaxy_ramdisk2/cwm/res/images/icon_cid.png 755 0 0
 file /cwm/res/images/icon_clockwork.png source/usr/galaxy_ramdisk2/cwm/res/images/icon_clockwork.png 755 0 0
 file /cwm/res/images/icon_error.png source/usr/galaxy_ramdisk2/cwm/res/images/icon_error.png 755 0 0
 file /cwm/res/images/icon_firmware_error.png source/usr/galaxy_ramdisk2/cwm/res/images/icon_firmware_error.png 755 0 0
@@ -191,7 +202,6 @@ file /cwm/sbin/false source/usr/galaxy_ramdisk2/cwm/sbin/false 755 0 0
 file /cwm/sbin/fdisk source/usr/galaxy_ramdisk2/cwm/sbin/fdisk 755 0 0
 file /cwm/sbin/fgrep source/usr/galaxy_ramdisk2/cwm/sbin/fgrep 755 0 0
 file /cwm/sbin/find source/usr/galaxy_ramdisk2/cwm/sbin/find 755 0 0
-file /cwm/sbin/fix_permissions source/usr/galaxy_ramdisk2/cwm/sbin/fix_permissions 755 0 0
 file /cwm/sbin/flash_image source/usr/galaxy_ramdisk2/cwm/sbin/flash_image 755 0 0
 file /cwm/sbin/fold source/usr/galaxy_ramdisk2/cwm/sbin/fold 755 0 0
 file /cwm/sbin/free source/usr/galaxy_ramdisk2/cwm/sbin/free 755 0 0
@@ -208,6 +218,7 @@ file /cwm/sbin/hexdump source/usr/galaxy_ramdisk2/cwm/sbin/hexdump 755 0 0
 file /cwm/sbin/id source/usr/galaxy_ramdisk2/cwm/sbin/id 755 0 0
 file /cwm/sbin/insmod source/usr/galaxy_ramdisk2/cwm/sbin/insmod 755 0 0
 file /cwm/sbin/install source/usr/galaxy_ramdisk2/cwm/sbin/install 755 0 0
+file /cwm/sbin/install-su.sh source/usr/galaxy_ramdisk2/cwm/sbin/install-su.sh 755 0 0
 file /cwm/sbin/kill source/usr/galaxy_ramdisk2/cwm/sbin/kill 755 0 0
 file /cwm/sbin/killall source/usr/galaxy_ramdisk2/cwm/sbin/killall 755 0 0
 file /cwm/sbin/killall5 source/usr/galaxy_ramdisk2/cwm/sbin/killall5 755 0 0
@@ -271,6 +282,7 @@ file /cwm/sbin/rm source/usr/galaxy_ramdisk2/cwm/sbin/rm 755 0 0
 file /cwm/sbin/rmdir source/usr/galaxy_ramdisk2/cwm/sbin/rmdir 755 0 0
 file /cwm/sbin/rmmod source/usr/galaxy_ramdisk2/cwm/sbin/rmmod 755 0 0
 file /cwm/sbin/run-parts source/usr/galaxy_ramdisk2/cwm/sbin/run-parts 755 0 0
+file /cwm/sbin/run-su-daemon.sh source/usr/galaxy_ramdisk2/cwm/sbin/run-su-daemon.sh 755 0 0
 file /cwm/sbin/sdparted source/usr/galaxy_ramdisk2/cwm/sbin/sdparted 755 0 0
 file /cwm/sbin/sed source/usr/galaxy_ramdisk2/cwm/sbin/sed 755 0 0
 file /cwm/sbin/seq source/usr/galaxy_ramdisk2/cwm/sbin/seq 755 0 0
@@ -289,6 +301,7 @@ file /cwm/sbin/split source/usr/galaxy_ramdisk2/cwm/sbin/split 755 0 0
 file /cwm/sbin/stat source/usr/galaxy_ramdisk2/cwm/sbin/stat 755 0 0
 file /cwm/sbin/strings source/usr/galaxy_ramdisk2/cwm/sbin/strings 755 0 0
 file /cwm/sbin/stty source/usr/galaxy_ramdisk2/cwm/sbin/stty 755 0 0
+file /cwm/sbin/su.recovery source/usr/galaxy_ramdisk2/cwm/sbin/su.recovery 755 0 0
 file /cwm/sbin/swapoff source/usr/galaxy_ramdisk2/cwm/sbin/swapoff 755 0 0
 file /cwm/sbin/swapon source/usr/galaxy_ramdisk2/cwm/sbin/swapon 755 0 0
 file /cwm/sbin/sync source/usr/galaxy_ramdisk2/cwm/sbin/sync 755 0 0
@@ -330,6 +343,8 @@ file /cwm/sbin/xargs source/usr/galaxy_ramdisk2/cwm/sbin/xargs 755 0 0
 file /cwm/sbin/xzcat source/usr/galaxy_ramdisk2/cwm/sbin/xzcat 755 0 0
 file /cwm/sbin/yes source/usr/galaxy_ramdisk2/cwm/sbin/yes 755 0 0
 file /cwm/sbin/zcat source/usr/galaxy_ramdisk2/cwm/sbin/zcat 755 0 0
+file /cwm/seapp_contexts source/usr/galaxy_ramdisk2/cwm/seapp_contexts 755 0 0
+file /cwm/sepolicy source/usr/galaxy_ramdisk2/cwm/sepolicy 755 0 0
 file /cwm/ueventd.aries.rc source/usr/galaxy_ramdisk2/cwm/ueventd.aries.rc 755 0 0
 file /cwm/ueventd.goldfish.rc source/usr/galaxy_ramdisk2/cwm/ueventd.goldfish.rc 755 0 0
 file /cwm/ueventd.rc source/usr/galaxy_ramdisk2/cwm/ueventd.rc 755 0 0
