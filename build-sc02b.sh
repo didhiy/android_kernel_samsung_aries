@@ -8,8 +8,8 @@ make "cyanogenmod_galaxys_sc02b_defconfig"
 
 KERNEL_DIR=`pwd`
 OUTPUT_DIR=../output
-CWM_DIR=../ramdisk-sc02b/devil/
-MODULES_DIR=../ramdisk-sc02b/devil/system/lib/modules/
+CWM_DIR=../ramdisk-sc02b/stock/
+MODULES_DIR=../ramdisk-sc02b/stock/system/lib/modules/
 
 echo "MODULES_DIR="$MODULES_DIR
 echo "KERNEL_DIR="$KERNEL_DIR
