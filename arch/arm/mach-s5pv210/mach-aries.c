@@ -2615,32 +2615,35 @@ static struct switch_dev switch_dock = {
 static void fsa9480_deskdock_cb(bool attached)
 {
 #ifdef CONFIG_FORCE_FAST_CHARGE
-  if ( force_fast_charge != 0 )
-  {
-    fsa9480_charger_cb( attached );
-  }
-  else
-  {
+        if ((force_fast_charge != 0 && set_cable_status != CABLE_TYPE_USB) ||
+	    (force_fast_charge == 0 && set_cable_status == CABLE_TYPE_AC)) {
+                fsa9480_charger_cb(attached);
+	    if (attached)
+		switch_set_state(&switch_dock, 1);
+	    else
+		switch_set_state(&switch_dock, 0);
+        } else {
 #endif
-    struct usb_gadget *gadget = platform_get_drvdata(&s3c_device_usbgadget);
+		pr_info("%s: force_fast_charge: %s\n", __func__, "dock USB");
+                struct usb_gadget *gadget = platform_get_drvdata(&s3c_device_usbgadget);
 
-    if (attached)
-      switch_set_state(&switch_dock, 1);
-    else
-      switch_set_state(&switch_dock, 0);
+                if (attached)
+                        switch_set_state(&switch_dock, 1);
+                else
+                        switch_set_state(&switch_dock, 0);
 
-    if (gadget) {
-      if (attached)
-        usb_gadget_vbus_connect(gadget);
-      else
-        usb_gadget_vbus_disconnect(gadget);
-    }
+                if (gadget) {
+                        if (attached)
+                                usb_gadget_vbus_connect(gadget);
+                        else
+                                usb_gadget_vbus_disconnect(gadget);
+                }
 
-    set_cable_status = attached ? CABLE_TYPE_USB : CABLE_TYPE_NONE;
-    if (charger_callbacks && charger_callbacks->set_cable)
-      charger_callbacks->set_cable(charger_callbacks, set_cable_status);
+                set_cable_status = attached ? CABLE_TYPE_USB : CABLE_TYPE_NONE;
+                if (charger_callbacks && charger_callbacks->set_cable)
+                        charger_callbacks->set_cable(charger_callbacks, set_cable_status);
 #ifdef CONFIG_FORCE_FAST_CHARGE
-  }
+        }
 #endif
 }
 
