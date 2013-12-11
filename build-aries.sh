@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Making KK-4.4/CM-11.0 kernel for GS1 i9000"
-BUILDVERSION=aries-cm-11.0-kernel-`date +%Y%m%d`
+BUILDVERSION=aries-cm-11.0-kernel-`date +%Y%m%d`-mtwrp
 DATE_START=$(date +"%s")
 
 make "cyanogenmod_galaxysmtd_defconfig"
