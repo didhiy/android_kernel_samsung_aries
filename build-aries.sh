@@ -7,8 +7,8 @@ make "cyanogenmod_galaxysmtd_defconfig"
 
 KERNEL_DIR=`pwd`
 OUTPUT_DIR=../output
-CWM_DIR=../ramdisk-aries/stock/
-MODULES_DIR=../ramdisk-aries/stock/system/lib/modules/
+CWM_DIR=../ramdisk-aries/zip-stock/
+MODULES_DIR=../ramdisk-aries/zip-stock/system/lib/modules/
 
 echo "KERNEL_DIR="$KERNEL_DIR
 echo "OUTPUT_DIR="$OUTPUT_DIR
