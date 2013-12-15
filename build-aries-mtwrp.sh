@@ -3,6 +3,9 @@ echo "Making KK-4.4/CM-11.0 kernel for GS1 i9000"
 BUILDVERSION=aries-cm-11.0-kernel-`date +%Y%m%d`-mtwrp
 DATE_START=$(date +"%s")
 
+echo "Add recovery-ramdisk"
+cp -vf source/mtwrp.img source/usr/galaxysmtd_initramfs_files/ramdisk-recovery.img
+
 make "cyanogenmod_galaxysmtd_defconfig"
 
 KERNEL_DIR=`pwd`
@@ -24,6 +27,12 @@ chmod 644 `echo $MODULES_DIR"/*"`
 make zImage
 
 cp arch/arm/boot/zImage $CWM_DIR"boot.img"
+
+echo "End of compiling kernel!"
+echo "Delete recovery-ramdisk"
+rm -vf source/usr/galaxysmtd_initramfs_files/ramdisk-recovery.img
+
+echo "Create zip file..."
 cd $CWM_DIR
 
 zip -r `echo $BUILDVERSION`.zip *
