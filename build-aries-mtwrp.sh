@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Making KK-4.4/CM-11.0 kernel for GS1 i9000"
-BUILDVERSION=x-aries-cm-11.0-`date +%Y%m%d`-mtwrp
+BUILDVERSION=x-aries-cm-11.0-`date +%Y%m%d`-mtwrp-cma
 DATE_START=$(date +"%s")
 
 echo "Add recovery-ramdisk"
