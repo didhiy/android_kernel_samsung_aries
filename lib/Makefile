@@ -70,8 +70,11 @@ obj-$(CONFIG_BCH) += bch.o
 obj-$(CONFIG_LZO_COMPRESS) += lzo/
 obj-$(CONFIG_LZO_DECOMPRESS) += lzo/
 <<<<<<< HEAD
+<<<<<<< HEAD
 obj-$(CONFIG_LZ4_COMPRESS) += lz4/
 obj-$(CONFIG_LZ4HC_COMPRESS) += lz4/
+=======
+>>>>>>> parent of 3cbae02... lz4 test2
 obj-$(CONFIG_LZ4_DECOMPRESS) += lz4/
 =======
 >>>>>>> parent of a8b6f07... lz4 first tests
