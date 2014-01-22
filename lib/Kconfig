@@ -96,17 +96,11 @@ config ZLIB_DEFLATE
 config LZO_COMPRESS
 	tristate
 
-config LZ4_COMPRESS
-  tristate
-
-config LZ4HC_COMPRESS
-  tristate
-
 config LZO_DECOMPRESS
 	tristate
 
 config LZ4_DECOMPRESS
-  tristate
+	tristate
 
 source "lib/xz/Kconfig"
 
@@ -133,8 +127,8 @@ config DECOMPRESS_LZO
 	tristate
 
 config DECOMPRESS_LZ4
-  select LZ4_DECOMPRESS
-  tristate
+	select LZ4_DECOMPRESS
+	tristate
 
 #
 # Generic allocator support is selected if needed
