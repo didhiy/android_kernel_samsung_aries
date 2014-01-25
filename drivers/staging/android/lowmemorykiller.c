@@ -147,6 +147,7 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	int tasksize;
 	int i;
 	int min_adj = OOM_ADJUST_MAX + 1;
+	int target_free = 0;
 #ifdef ENHANCED_LMK_ROUTINE
 	int selected_tasksize[LOWMEM_DEATHPENDING_DEPTH] = {0,};
 	int selected_oom_adj[LOWMEM_DEATHPENDING_DEPTH] = {OOM_ADJUST_MAX,};
@@ -155,6 +156,7 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	int minfree = 0;
 #else
 	int selected_tasksize = 0;
+	int selected_target_offset;
 	int selected_oom_adj;
 #endif
 	int array_size = ARRAY_SIZE(lowmem_adj);
@@ -216,6 +218,7 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	for_each_process(tsk) {
 		struct task_struct *p;
 		int oom_adj;
+		int target_offset;
 #ifdef ENHANCED_LMK_ROUTINE
 		int is_exist_oom_task = 0;
 #endif
@@ -236,6 +239,7 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		task_unlock(p);
 		if (tasksize <= 0)
 			continue;
+			target_offset = abs(target_free - tasksize);
 #ifdef ENHANCED_LMK_ROUTINE
 		if (all_selected_oom < LOWMEM_DEATHPENDING_DEPTH) {
 			for (i = 0; i < LOWMEM_DEATHPENDING_DEPTH; i++) {
@@ -277,11 +281,12 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 			if (oom_adj < selected_oom_adj)
 				continue;
 			if (oom_adj == selected_oom_adj &&
-			    tasksize <= selected_tasksize)
+			    target_offset >= selected_target_offset)
 				continue;
 		}
 		selected = p;
 		selected_tasksize = tasksize;
+		selected_target_offset = target_offset;
 		selected_oom_adj = oom_adj;
 		lowmem_print(2, "select '%s' (%d), adj %d, size %d, to kill\n",
 			     p->pid, p->comm, oom_adj, tasksize);a
