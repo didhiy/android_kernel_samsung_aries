@@ -4,7 +4,7 @@ if [ "$CPU_JOB_NUM" = "" ] ; then
 fi
 
 echo "Making KK-4.4/CM-11.0 kernel for GS1 i9000B"
-BUILDVERSION=ariesbr-cm-11.0-`date +%Y%m%d`-mtwrp-cma
+BUILDVERSION=ariesbr-cm-11.0-kernel-`date +%Y%m%d`-mtwrp
 DATE_START=$(date +"%s")
 
 make "cyanogenmod_galaxysbmtd_defconfig"
